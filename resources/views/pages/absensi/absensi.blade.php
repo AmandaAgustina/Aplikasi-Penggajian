@@ -7,7 +7,7 @@
         <form action="{{ route('absensi.import') }}" method="POST" enctype="multipart/form-data" class="mb-3">
             @csrf
             <div class="d-flex gap-2 align-items-center">
-                <input type="file" name="file" class="form-control w-auto" required>
+                <input type="file" name="file" class="form-control" required>
                 <button type="submit" class="btn btn-success">Import Excel</button>
             </div>
         </form>
@@ -26,11 +26,6 @@
                         <th rowspan="2">Jumlah SKS</th>
                         <th rowspan="2">Honor/SKS</th>
                         <th rowspan="2">Total Honor</th>
-                    </tr>
-                    <tr>
-                        @for ($i = 1; $i <= 32; $i++)
-                            <th>{{ $i }}</th>
-                        @endfor
                     </tr>
                 </thead>
                 <tbody>

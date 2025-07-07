@@ -28,16 +28,17 @@ Route::middleware(['role:admin'])->group(function () {
 
     //tunjangan
     Route::resource('/tunjangan', TunjanganController::class)->names('tunjangan');
+
+    //penjadwalan
+    Route::get('/penjadwalan', [PenjadwalanController::class, 'index'])->name('penjadwalan.index');
+    Route::get('/penjadwalan/{dosen_id}/create', [PenjadwalanController::class, 'create'])->name('penjadwalan.create');
+    Route::post('/penjadwalan/store', [PenjadwalanController::class, 'store'])->name('penjadwalan.store');
+
+    //absensi
+    Route::get('/absensi', [AbsensiController::class, 'index'])->name('absensi');
+    Route::post('/absensi/import', [AbsensiController::class, 'import'])->name('absensi.import');
 });
 
-//penjadwalan
-Route::get('/penjadwalan', [PenjadwalanController::class, 'index'])->name('penjadwalan.index');
-Route::get('/penjadwalan/{dosen_id}/create', [PenjadwalanController::class, 'create'])->name('penjadwalan.create');
-Route::post('/penjadwalan/store', [PenjadwalanController::class, 'store'])->name('penjadwalan.store');
-
-//absensi
-Route::get('/absensi', [AbsensiController::class, 'index'])->name('absensi');
-Route::post('/absensi/import', [AbsensiController::class, 'import'])->name('absensi.import');
 
 
 //login
