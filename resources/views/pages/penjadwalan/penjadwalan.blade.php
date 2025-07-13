@@ -27,8 +27,10 @@
                                 <td>{{ $dosen->nama }}
                                 </td>
                                 <td>
-                                    @if ($dosen->jadwalDosen)
+                                    @if ($dosen->jadwalDosen->isNotEmpty())
                                         <span class="badge bg-success">Sudah Terjadwal</span>
+                                    @else
+                                        <span class="badge bg-danger">Belum Terjadwal</span>
                                     @endif
                                 </td>
                                 <td>

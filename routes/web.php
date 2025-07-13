@@ -6,8 +6,10 @@ use App\Http\Controllers\DosenController;
 use App\Http\Controllers\JarakSKSController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MatkulController;
+use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\PenjadwalanController;
 use App\Http\Controllers\TunjanganController;
+use App\Http\Controllers\UserDosenController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,13 +35,18 @@ Route::middleware(['role:admin'])->group(function () {
     Route::get('/penjadwalan', [PenjadwalanController::class, 'index'])->name('penjadwalan.index');
     Route::get('/penjadwalan/{dosen_id}/create', [PenjadwalanController::class, 'create'])->name('penjadwalan.create');
     Route::post('/penjadwalan/store', [PenjadwalanController::class, 'store'])->name('penjadwalan.store');
+    Route::delete('/penjadwalan/{id}/destroy', [PenjadwalanController::class, 'destroy'])->name('penjadwalan.destroy');
 
     //absensi
     Route::get('/absensi', [AbsensiController::class, 'index'])->name('absensi');
     Route::post('/absensi/import', [AbsensiController::class, 'import'])->name('absensi.import');
+
+    Route::get('/penggajian', [PenggajianController::class, 'index'])->name('penggajian.index');
 });
 
-
+Route::middleware(['role:dosen'])->group(function () {
+    Route::get('/gajidosen', [UserDosenController::class, 'dosenIndex'])->name('gajidosen.index');
+});
 
 //login
 Route::get('/login', [LoginController::class, 'login'])->name('login');

@@ -37,6 +37,14 @@
                 <label>Alamat</label>
                 <textarea name="alamat" class="form-control">{{ old('alamat') }}</textarea>
             </div>
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
+            </div>
+            <div class="mb-3">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" value="{{ old('password') }}" required>
+            </div>
             <button type="submit" class="btn btn-success">Simpan</button>
             <a href="{{ route('dosen.index') }}" class="btn btn-secondary">Kembali</a>
         </form>

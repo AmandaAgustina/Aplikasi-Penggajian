@@ -13,6 +13,7 @@
                     <label>Navigation</label>
                 </li>
                 <li class="pc-item">
+                    @if (Auth::user()->level == 'admin')
                 <li class="pc-item">
                     <a href="../dashboard/index.html" class="pc-link">
                         <span class="pc-micon">
@@ -22,7 +23,7 @@
                     </a>
                 </li>
                 <li class="pc-item pc-caption">
-                    <label>UI Components</label>
+                    <label>Master Data</label>
                     <i data-feather="feather"></i>
                 </li>
                 <li class="pc-item pc-hasmenu">
@@ -77,11 +78,24 @@
                     <i data-feather="monitor"></i>
                 </li>
                 <li class="pc-item pc-hasmenu">
-                    <a href="{{ route('absensi') }}" class="pc-link">
+                    <a href="{{ route('penggajian.index') }}" class="pc-link">
                         <span class="pc-micon"> <i data-feather="book"></i></span>
                         <span class="pc-mtext">Penggajian</span>
                     </a>
                 </li>
+                @endif
+                @if (Auth::user()->level == 'dosen')
+                    <li class="pc-item pc-caption">
+                        <label>Gaji</label>
+                        <i data-feather="monitor"></i>
+                    </li>
+                    <li class="pc-item pc-hasmenu">
+                        <a href="{{ route('penggajian.index') }}" class="pc-link">
+                            <span class="pc-micon"> <i data-feather="book"></i></span>
+                            <span class="pc-mtext">Gaji Dosen</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

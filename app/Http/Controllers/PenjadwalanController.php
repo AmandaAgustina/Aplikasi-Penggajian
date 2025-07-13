@@ -38,4 +38,15 @@ class PenjadwalanController extends Controller
 
         return redirect()->route('penjadwalan.create', $request->dosen_id)->with('success', 'Jadwal ditambahkan.');
     }
+
+    public function destroy($id)
+    {
+        $jadwal = JadwalDosen::find($id);
+        if ($jadwal) {
+            $jadwal->delete();
+            return back()->with('success', 'Jadwal berhasil dihapus.');
+        }
+
+        return back()->with('error', 'Jadwal tidak ditemukan.');
+    }
 }

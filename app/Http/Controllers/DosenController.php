@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dosen;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class DosenController extends Controller
 {
@@ -36,8 +38,23 @@ class DosenController extends Controller
             'jabatan' => 'required',
         ]);
 
-        Dosen::create($request->all());
 
+        User::create([
+            'name' => $request->nama,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'dosen',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        Dosen::create([
+            'nama' => $request->nama,
+            'nidn' => $request->nidn,
+            'jarak' => $request->jarak,
+            'jabatan' => $request->jabatan,
+            'user_id' => $user ? $user->id : null,
+        ]);
         return redirect()->route('dosen.index')->with('success', 'Dosen created successfully.');
     }
 
