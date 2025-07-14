@@ -21,7 +21,6 @@
                     @foreach ($tunjangans as $item)
                         <th>{{ $item->nama }}</th>
                     @endforeach
-                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,9 +47,15 @@
                         <td>Rp. {{ number_format($jarak, 0, ',', '.') }}</td>
                         <td>Rp. {{ number_format($sks, 0, ',', '.') }}</td>
                         @foreach ($tunjangans as $item)
-                            <td> <input type="checkbox" class="form-control"></td>
+                            @php
+                                $key = $dosen->id . '-' . $item->id;
+                            @endphp
+                            <td>
+                                <input type="checkbox" class="form-check-input tunjangan-check"
+                                    data-dosen-id="{{ $dosen->id }}" data-tunjangan-id="{{ $item->id }}"
+                                    {{ in_array($key, $penggajians) ? 'checked' : '' }}>
+                            </td>
                         @endforeach
-                        <td><strong>Rp {{ number_format($total, 0, ',', '.') }}</strong></td>
 
                     </tr>
                 @endforeach
@@ -58,3 +63,32 @@
         </table>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.querySelectorAll('.tunjangan-check').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const dosenId = this.dataset.dosenId;
+                const tunjanganId = this.dataset.tunjanganId;
+                const isChecked = this.checked;
+
+                fetch("{{ route('penggajian.store') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({
+                            dosen_id: dosenId,
+                            tunjangan_id: tunjanganId,
+                            checked: isChecked
+                        })
+                    }).then(response => response.json())
+                    .then(data => {
+                        console.log(data.message);
+                    });
+            });
+        });
+    </script>
+@endpush

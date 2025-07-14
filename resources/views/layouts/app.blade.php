@@ -118,7 +118,7 @@
         main_layout_change('vertical');
     </script>
 
-
+    @stack('scripts')
 </body>
 <!-- [Body] end -->
 

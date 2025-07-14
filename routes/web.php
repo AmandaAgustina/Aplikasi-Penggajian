@@ -42,10 +42,12 @@ Route::middleware(['role:admin'])->group(function () {
     Route::post('/absensi/import', [AbsensiController::class, 'import'])->name('absensi.import');
 
     Route::get('/penggajian', [PenggajianController::class, 'index'])->name('penggajian.index');
+    Route::post('/penggajian/store', [PenggajianController::class, 'store'])->name('penggajian.store');
 });
 
 Route::middleware(['role:dosen'])->group(function () {
     Route::get('/gajidosen', [UserDosenController::class, 'dosenIndex'])->name('gajidosen.index');
+    Route::get('/slip-gaji/pdf', [UserDosenController::class, 'exportPdf'])->name('slip-gaji.pdf');
 });
 
 //login
