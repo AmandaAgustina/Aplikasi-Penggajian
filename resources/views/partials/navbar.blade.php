@@ -17,77 +17,76 @@
                 <li class="pc-item pc-caption">
                     <label>Navigation</label>
                 </li>
-                <li class="pc-item">
-                    @if (Auth::user()->level == 'admin')
-                <li class="pc-item">
-                    <a href="/" class="pc-link">
-                        <span class="pc-micon">
-                            <i data-feather="home"></i>
-                        </span>
-                        <span class="pc-mtext">Dashboard</span>
-                    </a>
-                </li>
-                <li class="pc-item pc-caption">
-                    <label>Master Data</label>
-                    <i data-feather="feather"></i>
-                </li>
-                <li class="pc-item pc-hasmenu">
-                    <a href="{{ route('dosen.index') }}" class="pc-link">
-                        <span class="pc-micon"> <i data-feather="users"></i></span>
-                        <span class="pc-mtext">Dosen</span>
-                    </a>
-                </li>
-                <li class="pc-item pc-hasmenu">
-                    <a href="{{ route('matkul.index') }}" class="pc-link">
-                        <span class="pc-micon"> <i data-feather="book-open"></i></span>
-                        <span class="pc-mtext">Matkul</span>
-                    </a>
-                </li>
-                <li class="pc-item pc-hasmenu">
-                    <a href="{{ route('jaraksks.index') }}" class="pc-link">
-                        <span class="pc-micon"> <i data-feather="map"></i></span>
-                        <span class="pc-mtext">Jarak & SKS</span>
-                    </a>
-                </li>
-                <li class="pc-item pc-hasmenu">
-                    <a href="{{ route('tunjangan.index') }}" class="pc-link">
-                        <span class="pc-micon"> <i data-feather="dollar-sign"></i></span>
-                        <span class="pc-mtext">Tunjangan</span>
-                    </a>
-                </li>
+                @if (Auth::user()->level == 'admin')
+                    <li class="pc-item">
+                        <a href="/dashboard" class="pc-link">
+                            <span class="pc-micon">
+                                <i data-feather="home"></i>
+                            </span>
+                            <span class="pc-mtext">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="pc-item pc-caption">
+                        <label>Master Data</label>
+                        <i data-feather="feather"></i>
+                    </li>
+                    <li class="pc-item pc-hasmenu">
+                        <a href="{{ route('dosen.index') }}" class="pc-link">
+                            <span class="pc-micon"> <i data-feather="users"></i></span>
+                            <span class="pc-mtext">Dosen</span>
+                        </a>
+                    </li>
+                    <li class="pc-item pc-hasmenu">
+                        <a href="{{ route('matkul.index') }}" class="pc-link">
+                            <span class="pc-micon"> <i data-feather="book-open"></i></span>
+                            <span class="pc-mtext">Matkul</span>
+                        </a>
+                    </li>
+                    <li class="pc-item pc-hasmenu">
+                        <a href="{{ route('jaraksks.index') }}" class="pc-link">
+                            <span class="pc-micon"> <i data-feather="map"></i></span>
+                            <span class="pc-mtext">Jarak & SKS</span>
+                        </a>
+                    </li>
+                    <li class="pc-item pc-hasmenu">
+                        <a href="{{ route('tunjangan.index') }}" class="pc-link">
+                            <span class="pc-micon"> <i data-feather="dollar-sign"></i></span>
+                            <span class="pc-mtext">Tunjangan</span>
+                        </a>
+                    </li>
 
-                <li class="pc-item pc-caption">
-                    <label>Penjadwalan</label>
-                    <i data-feather="monitor"></i>
-                </li>
-                <li class="pc-item pc-hasmenu">
-                    <a href="{{ route('penjadwalan.index') }}" class="pc-link">
-                        <span class="pc-micon"> <i data-feather="book"></i></span>
-                        <span class="pc-mtext">Penjadwalan</span>
-                    </a>
-                </li>
+                    <li class="pc-item pc-caption">
+                        <label>Penjadwalan</label>
+                        <i data-feather="monitor"></i>
+                    </li>
+                    <li class="pc-item pc-hasmenu">
+                        <a href="{{ route('penjadwalan.index') }}" class="pc-link">
+                            <span class="pc-micon"> <i data-feather="book"></i></span>
+                            <span class="pc-mtext">Penjadwalan</span>
+                        </a>
+                    </li>
 
-                <li class="pc-item pc-caption">
-                    <label>Absensi</label>
-                    <i data-feather="monitor"></i>
-                </li>
-                {{-- <li class="pc-item pc-hasmenu">
+                    <li class="pc-item pc-caption">
+                        <label>Absensi</label>
+                        <i data-feather="monitor"></i>
+                    </li>
+                    {{-- <li class="pc-item pc-hasmenu">
                     <a href="{{ route('absensi') }}" class="pc-link">
                         <span class="pc-micon"> <i data-feather="list"></i></span>
                         <span class="pc-mtext">Absensi</span>
                     </a>
                 </li> --}}
 
-                <li class="pc-item pc-caption">
-                    <label>Gaji</label>
-                    <i data-feather="monitor"></i>
-                </li>
-                <li class="pc-item pc-hasmenu">
-                    <a href="{{ route('penggajian.index') }}" class="pc-link">
-                        <span class="pc-micon"> <i data-feather="book"></i></span>
-                        <span class="pc-mtext">Penggajian</span>
-                    </a>
-                </li>
+                    <li class="pc-item pc-caption">
+                        <label>Gaji</label>
+                        <i data-feather="monitor"></i>
+                    </li>
+                    <li class="pc-item pc-hasmenu">
+                        <a href="{{ route('penggajian.index') }}" class="pc-link">
+                            <span class="pc-micon"> <i data-feather="book"></i></span>
+                            <span class="pc-mtext">Penggajian</span>
+                        </a>
+                    </li>
                 @endif
                 @if (Auth::user()->level == 'dosen')
                     <li class="pc-item pc-caption">
