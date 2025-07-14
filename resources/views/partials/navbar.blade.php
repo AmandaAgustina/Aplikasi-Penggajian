@@ -1,10 +1,14 @@
 <nav class="pc-sidebar">
     <div class="navbar-wrapper">
         <div class="m-header flex items-center py-4 px-6 h-header-height">
-            <a href="/" class="b-brand flex items-center gap-3">
-                <!-- ========   Change your logo from here   ============ -->
-                <h3 class="text-white">Penggajian</h3>
-                {{-- <img src="{{ asset('assets/images/logo-white.svg') }}" class="img-fluid logo logo-lg" alt="logo" />
+            @if (Auth::user()->level == 'admin')
+                <a href="/dashboard" class="b-brand flex items-center gap-3">
+                @else
+                    <a href="/gajidosen" class="b-brand flex items-center gap-3">
+            @endif
+            <!-- ========   Change your logo from here   ============ -->
+            <h3 class="text-white">Penggajian</h3>
+            {{-- <img src="{{ asset('assets/images/logo-white.svg') }}" class="img-fluid logo logo-lg" alt="logo" />
                 <img src="{{ asset('assets/images/favicon.svg') }}" class="img-fluid logo logo-sm" alt="logo" /> --}}
             </a>
         </div>
@@ -67,12 +71,12 @@
                     <label>Absensi</label>
                     <i data-feather="monitor"></i>
                 </li>
-                <li class="pc-item pc-hasmenu">
+                {{-- <li class="pc-item pc-hasmenu">
                     <a href="{{ route('absensi') }}" class="pc-link">
                         <span class="pc-micon"> <i data-feather="list"></i></span>
                         <span class="pc-mtext">Absensi</span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="pc-item pc-caption">
                     <label>Gaji</label>

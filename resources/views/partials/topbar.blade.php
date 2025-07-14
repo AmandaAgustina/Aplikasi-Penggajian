@@ -241,7 +241,7 @@
                                         <span>Share</span>
                                     </span>
                                 </a> --}}
-                                <a href="#" class="dropdown-item">
+                                <a href="{{ route('password.edit') }}" class="dropdown-item">
                                     <span>
                                         <svg class="pc-icon text-muted me-2 inline-block">
                                             <use xlink:href="#custom-lock-outline"></use>

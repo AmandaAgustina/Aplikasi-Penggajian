@@ -8,7 +8,11 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('pages.dashboard');
+        return view('pages.dashboard', [
+            'dosenCount' => \App\Models\Dosen::count(),
+            'matkulCount' => \App\Models\Matkul::count(),
+            'tunjanganCount' => \App\Models\Tunjangan::count(),
+        ]);
     }
 
     public function daftarMahasiswa()

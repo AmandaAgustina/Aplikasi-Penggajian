@@ -6,6 +6,7 @@ use App\Http\Controllers\DosenController;
 use App\Http\Controllers\JarakSKSController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MatkulController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\PenjadwalanController;
 use App\Http\Controllers\TunjanganController;
@@ -49,6 +50,9 @@ Route::middleware(['role:dosen'])->group(function () {
     Route::get('/gajidosen', [UserDosenController::class, 'dosenIndex'])->name('gajidosen.index');
     Route::get('/slip-gaji/pdf', [UserDosenController::class, 'exportPdf'])->name('slip-gaji.pdf');
 });
+
+Route::get('/ganti-password', [PasswordController::class, 'edit'])->name('password.edit')->middleware('auth');
+Route::post('/ganti-password', [PasswordController::class, 'update'])->name('password.update')->middleware('auth');
 
 //login
 Route::get('/login', [LoginController::class, 'login'])->name('login');
