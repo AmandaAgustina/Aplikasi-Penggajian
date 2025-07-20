@@ -13,8 +13,13 @@
             </div>
 
             <div class="mb-3">
-                <label for="harga_sks" class="form-label">Harga per 1 SKS</label>
-                <input type="number" name="harga_sks" class="form-control" required>
+                <label for="harga_sks_teori" class="form-label">Harga SKS Teori</label>
+                <input type="number" name="harga_sks_teori" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="harga_sks_praktik" class="form-label">Harga SKS Praktik</label>
+                <input type="number" name="harga_sks_praktik" class="form-control" required>
             </div>
 
             <button type="submit" class="btn btn-primary">Simpan</button>

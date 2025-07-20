@@ -11,77 +11,80 @@
             </a>
         </div>
 
-        @foreach ($dosens as $dosen)
-            @php
-                $jarak = ($jarak_sks->harga_jarak ?? 0) * ($dosen->jarak ?? 0);
-                $jumlah_sks = 0;
+        @php
+            $honor_teori = 0;
+            $honor_praktik = 0;
+            $jarak = ($jarak_sks->harga_jarak ?? 0) * ($dosen->jarak ?? 0);
 
-                if ($dosen->jadwalDosen) {
-                    $jumlah_sks = \App\Models\Matkul::whereIn('id', $dosen->jadwalDosen->pluck('matkul_id'))->sum(
-                        'sks',
-                    );
+            if ($dosen->jadwalDosen) {
+                $matkuls = \App\Models\Matkul::whereIn('id', $dosen->jadwalDosen->pluck('matkul_id'))->get();
+
+                foreach ($matkuls as $matkul) {
+                    if (strtolower($matkul->type ?? '') === 'teori') {
+                        $honor_teori += $matkul->sks * ($jarak_sks->harga_sks_teori ?? 0);
+                    } elseif (strtolower($matkul->type ?? '') === 'praktik') {
+                        $honor_praktik += $matkul->sks * ($jarak_sks->harga_sks_praktik ?? 0);
+                    }
                 }
+            }
 
-                $honor_sks = $jumlah_sks * ($jarak_sks->harga_sks ?? 0);
-                $gaji_pokok = $dosen->tunjangan->gaji_pokok ?? 0;
+            $sks = $honor_teori + $honor_praktik;
+            $gaji_pokok = $dosen->tunjangan->gaji_pokok ?? 0;
+            $tunjangan = $dosen->tunjangan->tunjangan ?? 0;
 
-                // Ambil semua tunjangan dari penggajian dosen ini
-                $tunjangan_items = $tunjangan_tersedia->where('dosen_id', $dosen->id);
+            $total = $sks + $gaji_pokok + $tunjangan + $jarak;
+        @endphp
 
-                $tunjangan_total = $tunjangan_items->sum(fn($item) => $item->tunjangan->nominal ?? 0);
 
-                $total = $gaji_pokok + $honor_sks + $jarak + $tunjangan_total;
-            @endphp
+        <div class="border p-4 mb-4 shadow-sm" style="max-width: 500px; margin: 0 auto;">
+            <h5 class="text-center mb-3">SLIP GAJI DOSEN</h5>
+            <table class="table table-sm table-borderless">
+                <tr>
+                    <td><strong>Nama Dosen</strong></td>
+                    <td>: {{ $dosen->nama }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Jarak Tempuh</strong></td>
+                    <td>: {{ $dosen->jarak }} km</td>
+                </tr>
+                <tr>
+                    <td><strong>Honor Jarak</strong></td>
+                    <td>: Rp {{ number_format($jarak, 0, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Jumlah SKS</strong></td>
+                    <td>: {{ $jumlah_sks }} SKS</td>
+                </tr>
+                <tr>
+                    <td><strong>Honor SKS</strong></td>
+                    <td>: Rp {{ number_format($honor_sks, 0, ',', '.') }}</td>
+                </tr>
 
-            <div class="border p-4 mb-4 shadow-sm" style="max-width: 500px; margin: 0 auto;">
-                <h5 class="text-center mb-3">SLIP GAJI DOSEN</h5>
-                <table class="table table-sm table-borderless">
+                @forelse ($tunjangan_items as $item)
                     <tr>
-                        <td><strong>Nama Dosen</strong></td>
-                        <td>: {{ $dosen->nama }}</td>
+                        <td><strong>{{ $item->tunjangan->nama }}</strong></td>
+                        <td>: Rp {{ number_format($item->tunjangan->nominal, 0, ',', '.') }}</td>
                     </tr>
+                @empty
                     <tr>
-                        <td><strong>Jarak Tempuh</strong></td>
-                        <td>: {{ $dosen->jarak }} km</td>
+                        <td colspan="2">Tidak ada tunjangan tambahan.</td>
                     </tr>
-                    <tr>
-                        <td><strong>Honor Jarak</strong></td>
-                        <td>: Rp {{ number_format($jarak, 0, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Jumlah SKS</strong></td>
-                        <td>: {{ $jumlah_sks }} SKS</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Honor SKS</strong></td>
-                        <td>: Rp {{ number_format($honor_sks, 0, ',', '.') }}</td>
-                    </tr>
+                @endforelse
 
-                    @forelse ($tunjangan_items as $item)
-                        <tr>
-                            <td><strong>{{ $item->tunjangan->nama }}</strong></td>
-                            <td>: Rp {{ number_format($item->tunjangan->nominal, 0, ',', '.') }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="2">Tidak ada tunjangan tambahan.</td>
-                        </tr>
-                    @endforelse
-
-                    <tr>
-                        <td colspan="2">
-                            <hr>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>Total Gaji</strong></td>
-                        <td><strong>: Rp {{ number_format($total, 0, ',', '.') }}</strong></td>
-                    </tr>
-                </table>
-                <p class="text-end mt-4">
-                    <strong>{{ now()->format('M Y') }}</strong>
-                </p>
-            </div>
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Total Gaji</strong></td>
+                    <td><strong>: Rp {{ number_format($total, 0, ',', '.') }}</strong></td>
+                </tr>
+            </table>
+            <p class="text-end mt-4">
+                <strong>{{ now()->format('M Y') }}</strong>
+            </p>
+        </div>
         @endforeach
     </div>
 @endsection

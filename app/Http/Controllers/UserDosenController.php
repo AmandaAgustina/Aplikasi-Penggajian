@@ -35,7 +35,8 @@ class UserDosenController extends Controller
 
         $jarak_sks = (object)[
             'harga_jarak' => $jarak->harga_jarak,
-            'harga_sks' => $jarak->harga_sks,
+            'harga_sks_teori' => $jarak->harga_sks_teori,
+            'harga_sks_praktik' => $jarak->harga_sks_praktik,
         ];
 
         $pdf = Pdf::loadView('pdf.gaji', compact('dosens', 'tunjangan_tersedia', 'jarak_sks'))

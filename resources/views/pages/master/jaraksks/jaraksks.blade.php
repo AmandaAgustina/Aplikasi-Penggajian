@@ -26,7 +26,8 @@
                         <tr>
                             <th>No</th>
                             <th>Harga per 1 Km</th>
-                            <th>Harga per 1 SKS</th>
+                            <th>Harga SKS Teori</th>
+                            <th>Harga SKS TPraktik</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -35,7 +36,8 @@
                             <tr>
                                 <td>1</td>
                                 <td>Rp {{ number_format($item->harga_jarak, 0, ',', '.') }}</td>
-                                <td>Rp {{ number_format($item->harga_sks, 0, ',', '.') }}</td>
+                                <td>Rp {{ number_format($item->harga_sks_teori, 0, ',', '.') }}</td>
+                                <td>Rp {{ number_format($item->harga_sks_praktik, 0, ',', '.') }}</td>
                                 <td>
                                     <a href="{{ route('jaraksks.edit', $item->id) }}"
                                         class="btn btn-warning btn-sm">Edit</a>

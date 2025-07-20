@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('jarak_s_k_s', function (Blueprint $table) {
             $table->id();
             $table->string('harga_jarak');
-            $table->string('harga_sks');
+            $table->string('harga_sks_teori');
+            $table->string('harga_sks_praktik');
             $table->timestamps();
         });
     }

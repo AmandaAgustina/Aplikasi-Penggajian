@@ -28,7 +28,8 @@ class JarakSKSController extends Controller
     {
         $request->validate([
             'harga_jarak' => 'required',
-            'harga_sks' => 'required',
+            'harga_sks_teori' => 'required',
+            'harga_sks_praktik' => 'required',
         ]);
 
         JarakSKS::create($request->all());
@@ -60,7 +61,8 @@ class JarakSKSController extends Controller
     {
         $request->validate([
             'harga_jarak' => 'required',
-            'harga_sks' => 'required',
+            'harga_sks_teori' => 'required',
+            'harga_sks_praktik' => 'required',
         ]);
 
         $jaraksks = JarakSKS::findOrFail($id);

@@ -30,26 +30,40 @@
                         <td>{{ $dosen->nama }}</td>
 
                         @php
-                            $sks = '';
+                            $honor_teori = 0;
+                            $honor_praktik = 0;
+                            $jarak = ($jarak_sks->harga_jarak ?? 0) * ($dosen->jarak ?? 0);
 
-                            $jarak = $jarak_sks->harga_jarak * $dosen->jarak ?? 0;
                             if ($dosen->jadwalDosen) {
-                                $sks =
-                                    Matkul::whereIn('id', $dosen->jadwalDosen->pluck('matkul_id'))->sum('sks') *
-                                        $jarak_sks->harga_sks ??
-                                    0;
+                                $matkuls = \App\Models\Matkul::whereIn(
+                                    'id',
+                                    $dosen->jadwalDosen->pluck('matkul_id'),
+                                )->get();
+
+                                foreach ($matkuls as $matkul) {
+                                    if (strtolower($matkul->type ?? '') === 'teori') {
+                                        $honor_teori += $matkul->sks * ($jarak_sks->harga_sks_teori ?? 0);
+                                    } elseif (strtolower($matkul->type ?? '') === 'praktik') {
+                                        $honor_praktik += $matkul->sks * ($jarak_sks->harga_sks_praktik ?? 0);
+                                    }
+                                }
                             }
+
+                            $sks = $honor_teori + $honor_praktik;
                             $gaji_pokok = $dosen->tunjangan->gaji_pokok ?? 0;
                             $tunjangan = $dosen->tunjangan->tunjangan ?? 0;
-                            $total = $gaji_pokok + $tunjangan;
+
+                            $total = $sks + $gaji_pokok + $tunjangan + $jarak;
                         @endphp
 
                         <td>Rp. {{ number_format($jarak, 0, ',', '.') }}</td>
                         <td>Rp. {{ number_format($sks, 0, ',', '.') }}</td>
+
                         @foreach ($tunjangans as $item)
                             @php
                                 $key = $dosen->id . '-' . $item->id;
                             @endphp
+
                             <td>
                                 <input type="checkbox" class="form-check-input tunjangan-check"
                                     data-dosen-id="{{ $dosen->id }}" data-tunjangan-id="{{ $item->id }}"
