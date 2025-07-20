@@ -43,7 +43,7 @@
                                 foreach ($matkuls as $matkul) {
                                     if (strtolower($matkul->type ?? '') === 'teori') {
                                         $honor_teori += $matkul->sks * ($jarak_sks->harga_sks_teori ?? 0);
-                                    } elseif (strtolower($matkul->type ?? '') === 'praktik') {
+                                    } elseif (strtolower($matkul->type ?? '') === 'praktikum') {
                                         $honor_praktik += $matkul->sks * ($jarak_sks->harga_sks_praktik ?? 0);
                                     }
                                 }

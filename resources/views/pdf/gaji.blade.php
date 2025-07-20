@@ -60,14 +60,17 @@
             $jumlah_sks = 0;
 
             if ($dosen->jadwalDosen) {
-                $jumlah_sks = \App\Models\Matkul::whereIn('id', $dosen->jadwalDosen->pluck('matkul_id'))->sum('sks');
+                $matkul = \App\Models\Matkul::whereIn('id', $dosen->jadwalDosen->pluck('matkul_id'))->get();
+                $harga_sks_praktik =
+                    $matkul->where('type', 'Praktikum')->sum('sks') * $jarak_sks->harga_sks_praktik ?? 0;
+                $harga_sks_teori = $matkul->where('type', 'Teori')->sum('sks') * $jarak_sks->harga_sks_teori ?? 0;
+
+                $jumlah_sks = $matkul->sum('sks');
             }
 
-            $honor_sks = $jumlah_sks * ($jarak_sks->harga_sks ?? 0);
-            $gaji_pokok = $dosen->tunjangan->gaji_pokok ?? 0;
             $tunjangan_items = $tunjangan_tersedia->where('dosen_id', $dosen->id);
             $tunjangan_total = $tunjangan_items->sum(fn($item) => $item->tunjangan->nominal ?? 0);
-            $total = $gaji_pokok + $honor_sks + $jarak + $tunjangan_total;
+            $total = $harga_sks_praktik + $harga_sks_teori + $jarak + $tunjangan_total;
         @endphp
 
         <div class="slip">
@@ -90,12 +93,12 @@
                     <td>: {{ $jumlah_sks }} SKS</td>
                 </tr>
                 <tr>
-                    <td><strong>Honor SKS</strong></td>
-                    <td>: Rp {{ number_format($honor_sks, 0, ',', '.') }}</td>
+                    <td><strong>Honor SKS Praktik</strong></td>
+                    <td>: Rp {{ number_format($harga_sks_praktik, 0, ',', '.') }}</td>
                 </tr>
                 <tr>
-                    <td><strong>Gaji Pokok</strong></td>
-                    <td>: Rp {{ number_format($gaji_pokok, 0, ',', '.') }}</td>
+                    <td><strong>Honor SKS Teori</strong></td>
+                    <td>: Rp {{ number_format($harga_sks_teori, 0, ',', '.') }}</td>
                 </tr>
 
                 @forelse ($tunjangan_items as $item)
